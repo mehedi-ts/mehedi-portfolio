@@ -5,9 +5,21 @@
   --foreground: #171717;
 }
 
+/* DARK MODE */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+
+  /* DARK MODE */
+  .dark {
     --background: #0a0a0a;
     --foreground: #ededed;
   }

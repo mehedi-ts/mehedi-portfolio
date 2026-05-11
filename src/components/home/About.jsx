@@ -1,136 +1,181 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+/* COUNTER COMPONENT (JS ONLY) */
+const Counter = ({ value }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const end = parseInt(value.replace(/\D/g, "")) || 0;
+
+    let start = 0;
+    const duration = 1200;
+    const stepTime = Math.max(10, Math.floor(duration / (end || 1)));
+
+    const timer = setInterval(() => {
+      start += 1;
+      setCount(start);
+
+      if (start >= end) {
+        clearInterval(timer);
+        setCount(end);
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [value]);
+
+  return (
+    <span>
+      {count}
+      {value.includes("+") ? "+" : ""}
+      {value.includes("%") ? "%" : ""}
+    </span>
+  );
+};
 
 const About = () => {
+  const features = [
+    "Clean & Modern Code",
+    "Pixel Perfect UI Design",
+    "High Performance Web Apps",
+    "Mobile First Responsive",
+  ];
+
+  const stats = [
+    { value: "15+", title: "Projects Completed" },
+    { value: "10+", title: "Happy Clients" },
+    { value: "100%", title: "Client Satisfaction" },
+    { value: "2+", title: "Years Experience" },
+  ];
+
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 mt-10">
-      <div className="bg-white border border-[#f1f1f1] rounded-4xl p-5 md:p-8 shadow-[0_10px_40px_rgba(0,0,0,0.04)]">
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr_320px] gap-8 items-center">
+    <section className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-20 overflow-hidden">
+      {/* BACKGROUND (MATCH HERO STYLE) */}
+      <div className="absolute top-10 -left-20 w-[280px] h-[280px] bg-[#5B4BFF]/15 blur-[120px] rounded-full" />
+      <div className="absolute bottom-0 -right-20 w-[280px] h-[280px] bg-[#7B70FF]/15 blur-[120px] rounded-full" />
+
+      {/* MAIN CARD */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8 }}
+        className="relative bg-white/70 backdrop-blur-2xl border border-white/60 rounded-[36px] p-6 md:p-10 shadow-[0_25px_70px_rgba(0,0,0,0.06)]"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr_320px] gap-10 items-center">
           {/* LEFT IMAGE */}
-          <div className="relative">
-            <div className="relative overflow-hidden rounded-[28px] bg-linear-to-br from-[#f4f2ff] to-[#e8e4ff] h-full">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative"
+          >
+            <div className="absolute inset-0 bg-[#5B4BFF]/10 blur-[60px] rounded-[30px]" />
+
+            <div className="relative rounded-[30px] overflow-hidden">
               <Image
                 src="/images/mehedi.png"
                 alt="Mehedi"
                 width={400}
                 height={500}
-                className="w-full h-full object-cover"
+                className="w-full object-cover hover:scale-105 transition duration-700"
               />
 
-              {/* EXPERIENCE CARD */}
-              <div className="absolute bottom-5 left-5 bg-white shadow-xl rounded-2xl px-5 py-3 flex items-center gap-3">
+              {/* FLOAT CARD */}
+              <motion.div
+                whileHover={{ y: -3 }}
+                className="absolute bottom-5 left-5 bg-white/90 backdrop-blur-xl border border-white/60 rounded-3xl px-5 py-4 flex items-center gap-4 shadow-lg"
+              >
                 <h3 className="text-[34px] font-bold text-[#5B4BFF] leading-none">
-                  2+
+                  <Counter value="2+" />
                 </h3>
 
                 <div>
                   <p className="text-sm font-semibold text-[#111]">Years</p>
-
-                  <p className="text-xs text-gray-500">Experience</p>
+                  <p className="text-xs text-gray-500">Learning Journey</p>
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
 
           {/* CENTER CONTENT */}
-          <div>
-            <p className="text-[15px] font-semibold text-[#5B4BFF] mb-2">
-              About Me
-            </p>
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            {/* TAG */}
+            <div className="inline-flex items-center gap-3 bg-[#f5f3ff] border border-[#e8e6ff] px-5 py-2.5 rounded-full mb-6">
+              <span className="w-2.5 h-2.5 bg-[#5B4BFF] rounded-full animate-pulse" />
+              <p className="text-sm font-semibold text-[#5B4BFF]">About Me</p>
+            </div>
 
-            <h2 className="text-[32px] md:text-[40px] leading-tight font-bold text-[#111] mb-5">
-              Passionate Frontend <br />
-              Developer
+            {/* TITLE */}
+            <h2 className="text-[34px] md:text-[48px] font-bold leading-[1.1] text-[#111]">
+              Passionate Frontend
+              <br />
+              <span className="text-[#5B4BFF]">Developer</span>
             </h2>
 
-            <p className="text-[#6b7280] leading-7.5 text-[15px] mb-8 max-w-155">
-              I’m Mehedi, a passionate Frontend Developer with 2+ years of
-              experience building beautiful, functional, and responsive web
-              applications. I love turning ideas into reality using modern
-              technologies. I focus on writing clean, maintainable code and
-              creating seamless user experiences.
+            {/* DESCRIPTION */}
+            <p className="mt-6 text-gray-600 leading-[32px] text-[16px] max-w-[600px]">
+              I’m Mehedi, a frontend developer passionate about building modern,
+              scalable and high-performance web applications with clean
+              architecture and smooth user experience.
             </p>
 
             {/* FEATURES */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-10">
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full border border-[#695CFF] flex items-center justify-center">
-                  <span className="w-2 h-2 bg-[#695CFF] rounded-full"></span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-8">
+              {features.map((f, i) => (
+                <div key={i} className="flex items-center gap-3 group">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#5B4BFF] group-hover:scale-125 transition" />
+                  <p className="text-gray-600 text-sm">{f}</p>
                 </div>
-
-                <p className="text-[15px] font-medium text-[#444]">
-                  Clean & Modern Code
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full border border-[#695CFF] flex items-center justify-center">
-                  <span className="w-2 h-2 bg-[#695CFF] rounded-full"></span>
-                </div>
-
-                <p className="text-[15px] font-medium text-[#444]">
-                  Pixel Perfect Design
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full border border-[#695CFF] flex items-center justify-center">
-                  <span className="w-2 h-2 bg-[#695CFF] rounded-full"></span>
-                </div>
-
-                <p className="text-[15px] font-medium text-[#444]">
-                  Fast & Performance
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full border border-[#695CFF] flex items-center justify-center">
-                  <span className="w-2 h-2 bg-[#695CFF] rounded-full"></span>
-                </div>
-
-                <p className="text-[15px] font-medium text-[#444]">
-                  Responsive & Mobile First
-                </p>
-              </div>
+              ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* RIGHT STATS */}
-          <div className="border border-[#ececec] rounded-[28px] p-6">
-            <div className="grid grid-cols-2 gap-y-8">
-              <div>
-                <h3 className="text-[38px] font-bold text-[#5B4BFF]">15+</h3>
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative"
+          >
+            <div className="absolute inset-0 bg-[#5B4BFF]/5 blur-[60px] rounded-[30px]" />
 
-                <p className="text-sm text-gray-500 mt-1">Projects Completed</p>
+            <div className="relative bg-white/70 backdrop-blur-2xl border border-white/60 rounded-[30px] p-7 shadow-lg">
+              <div className="grid grid-cols-2 gap-8">
+                {stats.map((s, i) => (
+                  <motion.div
+                    key={i}
+                    whileHover={{ y: -3 }}
+                    className="text-center"
+                  >
+                    <h3 className="text-[38px] font-bold text-[#5B4BFF]">
+                      <Counter value={s.value} />
+                    </h3>
+
+                    <p className="text-sm text-gray-500 mt-2">{s.title}</p>
+                  </motion.div>
+                ))}
               </div>
 
-              <div>
-                <h3 className="text-[38px] font-bold text-[#111]">10+</h3>
-
-                <p className="text-sm text-gray-500 mt-1">Happy Clients</p>
-              </div>
-
-              <div>
-                <h3 className="text-[38px] font-bold text-[#5B4BFF]">100%</h3>
-
-                <p className="text-sm text-gray-500 mt-1">
-                  Client Satisfaction
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-[38px] font-bold text-[#111]">2+</h3>
-
-                <p className="text-sm text-gray-500 mt-1">Years Experience</p>
-              </div>
+              {/* BUTTON */}
+              <button className="mt-8 w-full h-[56px] rounded-2xl bg-gradient-to-r from-[#5B4BFF] to-[#7B70FF] text-white font-semibold hover:scale-[1.02] transition">
+                Download CV
+              </button>
             </div>
-
-            {/* BUTTON */}
-            <button className="w-full mt-8 h-13.5 rounded-2xl border border-[#e9e9e9] text-[#5B4BFF] font-semibold hover:bg-[#5B4BFF] hover:text-white duration-300">
-              Download CV
-            </button>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
